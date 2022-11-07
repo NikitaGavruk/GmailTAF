@@ -18,12 +18,6 @@ namespace GmailTA.Logger
             get { return Browser.GetDriver(); }
         }
 
-        /// <summary>
-        /// Takes a screenshot and stores it in the specified location.
-        /// </summary>
-        /// <param name="directory">The directory.</param>
-        /// <param name="testName">The test name.</param>
-        /// <returns>The <see cref="string"/>.</returns>
         public static string TakeScreenshot(string directory, string testName)
         {
             if (!Directory.Exists(directory))
