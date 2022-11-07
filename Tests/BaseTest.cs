@@ -39,7 +39,7 @@ namespace GmailTA.Test
 
             }
             Log.Info("Test ended with " + TestContext.CurrentContext.Result.Outcome.Status.ToString());
-            _test.Log((Status)TestContext.CurrentContext.Result.Outcome.Status, "Test ended with status " + TestContext.CurrentContext.Result.Outcome.Status.ToString() + "Message:" + TestContext.CurrentContext.Result.Message);
+            _test.Log((Status)TestContext.CurrentContext.Result.Outcome.Status, "Test ended with status " + TestContext.CurrentContext.Result.Outcome.Status.ToString() + " Message:" + TestContext.CurrentContext.Result.Message);
             _extent.Flush();
             Browser.QuiteBrowser();
         }
