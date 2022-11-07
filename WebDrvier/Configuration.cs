@@ -14,7 +14,7 @@ namespace GmailTA.WebDrvier
             return ConfigurationManager.AppSettings[var] ?? defaultValue;
         }
         public static string ElementTimeout => GetEnviromentVar("ElementTimeout", "30");
-        public static string Browser => GetEnviromentVar("Browser", "RemoteChrome");
+        public static string Browser => GetEnviromentVar("Browser", "Chrome");
         public static string StartUrl => GetEnviromentVar("StartUrl", "https://www.google.com/gmail");
 
 

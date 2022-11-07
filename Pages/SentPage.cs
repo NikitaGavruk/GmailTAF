@@ -12,9 +12,9 @@ namespace GmailTA.Pages
         {
         }
 
-        public bool VerfiyMailAsSent()
+        public bool VerfiyMailAsSent(string subject)
         {
-            return IsElementVisible($"(//span[contains(text(),'{subject}')])[2]");
+            return IsElementExists($"//span[contains(text(),'{subject}')]");
         }
     }
 

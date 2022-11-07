@@ -51,7 +51,7 @@ namespace GmailTA.Tests
             try { _draftPage.VerfiyMailAsDraft("Subject"); }
             catch (WebDriverTimeoutException ex) { Assert.That(ex.Message, Is.EqualTo("Timed out after 10 seconds")); }
             // Step 9.Verify, that the mail is in ‘Sent’ folder.
-            Assert.IsTrue(_sentPage.VerfiyMailAsSent());
+            Assert.IsTrue(_sentPage.VerfiyMailAsSent("Subject"));
             // Step 10.	Log off.
             _chooseAnAccountPage.LogoutFromAccount();
             Assert.IsTrue(_chooseAnAccountPage.VerfiyLogoutIsSuccessfull());
@@ -108,16 +108,22 @@ namespace GmailTA.Tests
             _draftPage = new DraftPage();
             _mainPage = new MainPage();
             // Step 1. Login to the mail box.
+            Log.Info("Login into app");
             _loginPage.Login();
             // Step 2. Create a new mail(fill addressee, subject and body fields). And label it with star
+            Log.Debug("FillFullMail", "gavruk1337@gmail.com, Message without star, Star!");
             _composeMessagePage.FillFullMail("gavruk1337@gmail.com", "Message without star", "Star!").LabelEmail("Add star").SaveDraftMail();
             // Step 3. Create another draft without any label.
+            Log.Debug("FillFullMail", "gavruk1337@gmail.com, Message with star, Where is star?");
             _composeMessagePage.FillFullMail("gavruk1337@gmail.com", "Message with star", "Where is star?").SaveDraftMail();
             //  Step 4.	Verify that both mails are present in ‘Drafts’ folder.
             _mainPage.NavigateToDraftPage();
+            Log.Debug("VerfiyMailAsDraft", "without star");
             Assert.IsTrue(_draftPage.VerfiyMailAsDraft("without star"));
+            Log.Debug("VerfiyMailAsDraft", "with star");
             Assert.IsTrue(_draftPage.VerfiyMailAsDraft("with star"));
             //  Step 5.	In Select dropdown in the toolbar select ‘Starred’ option.
+            Log.Debug("SortDraftMessages", "Starred");
             _draftPage.SortDraftMessages("Starred");
             //  Step 6. Expand More (three dots) menu in the toolbar and click ‘Remove star’.
             _draftPage.ChooseOptionMoreMenu("Remove star");
@@ -125,17 +131,21 @@ namespace GmailTA.Tests
             try { _draftPage.IsMessageWithStarExists(); }
             catch (WebDriverTimeoutException ex) { Assert.That(ex.Message, Is.EqualTo("Timed out after 10 seconds")); }
             //  Step 8.	In Select dropdown select ‘Unstarred’ option
+            Log.Debug("SortDraftMessages", "Unstarred");
             _draftPage.SortDraftMessages("Unstarred");
             //  Step 9. Verify both drafts are selected
             Assert.That(_draftPage.GetSelectedMessagesCount().Equals(2));
             //  Step 10. Click Discard drafts in the toolbar
             _draftPage.DiscardDraft();
             // Step 11. Verify the drafts are deleted
+            Log.Debug("VerfiyMailAsDraft", "without star");
             try { _draftPage.VerfiyMailAsDraft("without star"); }
             catch (WebDriverTimeoutException ex) { Assert.That(ex.Message, Is.EqualTo("Timed out after 10 seconds")); }
+            Log.Debug("VerfiyMailAsDraft", "with star");
             try { _draftPage.VerfiyMailAsDraft("with star"); }
             catch (WebDriverTimeoutException ex) { Assert.That(ex.Message, Is.EqualTo("Timed out after 10 seconds")); }
             //  Step 12. Log off.
+            Log.Info("Logout");
             _chooseAnAccountPage.LogoutFromAccount();
             Assert.IsTrue(_chooseAnAccountPage.VerfiyLogoutIsSuccessfull());
 
