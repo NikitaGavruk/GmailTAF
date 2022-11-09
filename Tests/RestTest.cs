@@ -28,7 +28,6 @@ namespace GmailTA.Tests
         public void VerfiyBody()
         {
             List<Root> rootObject = ApiUtilities.DeserializeRootObject(ApiUtilities.GetBody(responce));
-
             Assert.That(rootObject.Count, Is.EqualTo(10));
 
 
