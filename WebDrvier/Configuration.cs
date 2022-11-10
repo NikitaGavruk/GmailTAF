@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,6 +12,9 @@ namespace GmailTA.WebDrvier
     {
         public static string GetEnviromentVar(string var, string defaultValue)
         {
+            string configFile = $"{Assembly.GetExecutingAssembly().Location}.config";
+            string outputConfigFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).FilePath;
+            File.Copy(configFile, outputConfigFile, true);
             return ConfigurationManager.AppSettings[var] ?? defaultValue;
         }
         public static string ElementTimeout => GetEnviromentVar("ElementTimeout", "30");

@@ -43,24 +43,18 @@ namespace GmailTA.WebDrvier
                     }
                 case BrowserType.RemoteChrome:
                     {
-                        ChromeOptions capabilities = new ChromeOptions();
-                        capabilities.BrowserVersion = "latest";
-                        Dictionary<string, object> browserstackOptions = new Dictionary<string, object>();
-                        browserstackOptions.Add("os", "Windows");
-                        browserstackOptions.Add("osVersion", "11");
-                        browserstackOptions.Add("local", "false");
-                        browserstackOptions.Add("seleniumVersion", "3.14.0");
-                        browserstackOptions.Add("browserName", "Chrome");
-                        capabilities.AddAdditionalOption("bstack:options", browserstackOptions);
-                        webDriver = new RemoteWebDriver(new Uri("http://localhost:5555"), capabilities);
+                        ChromeOptions Options = new ChromeOptions();
+                        Options.PlatformName = "windows 10";
+                        webDriver = new RemoteWebDriver(
+                                                  new Uri("http://localhost:4444"), Options.ToCapabilities(), TimeSpan.FromSeconds(600));
                         break;
                     }
                 case BrowserType.RemoteFirefox:
                     {
-                        FirefoxOptions options = new FirefoxOptions();
-                        options.AddAdditionalFirefoxOption(CapabilityType.BrowserName, "firefox");
-                        options.AddAdditionalFirefoxOption(CapabilityType.PlatformName, new Platform(PlatformType.XP));
-                        webDriver = new RemoteWebDriver(new Uri("http://localhost:5566/wd/hub"), options);
+                        FirefoxOptions Options = new FirefoxOptions();
+                        Options.PlatformName = "windows 10";
+                        webDriver = new RemoteWebDriver(
+                                                  new Uri("http://localhost:4444"), Options.ToCapabilities(), TimeSpan.FromSeconds(600));
                         break;
                     }
             }
