@@ -46,6 +46,11 @@ namespace GmailTA.Pages
             new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(10)).Until(ExpectedConditions.ElementIsVisible((By.XPath(xpath))));
             return true;
         }
+        public static bool IsPageLoadedByTitle(string title)
+        {
+            new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(10)).Until(ExpectedConditions.TitleContains(title));
+            return true;
+        }
         public static bool IsElementExists(String xpath)
         {
             new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(10)).Until(ExpectedConditions.ElementExists(By.XPath(xpath)));

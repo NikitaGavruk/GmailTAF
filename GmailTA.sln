@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GmailTA", "GmailTA.csproj", "{DE76B671-F489-448D-AA9D-3703FD511A39}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecFlowGmailProject.Specs", "..\Users\Mikita_Hauruk\source\repos\SpecFlowGmailProject.Specs\SpecFlowGmailProject.Specs.csproj", "{93A859AA-4AB4-4990-8101-1B6CC0AF4E58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{DE76B671-F489-448D-AA9D-3703FD511A39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE76B671-F489-448D-AA9D-3703FD511A39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE76B671-F489-448D-AA9D-3703FD511A39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93A859AA-4AB4-4990-8101-1B6CC0AF4E58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93A859AA-4AB4-4990-8101-1B6CC0AF4E58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93A859AA-4AB4-4990-8101-1B6CC0AF4E58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93A859AA-4AB4-4990-8101-1B6CC0AF4E58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

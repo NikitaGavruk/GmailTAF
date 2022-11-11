@@ -108,7 +108,6 @@ namespace GmailTA.Tests
             _draftPage = new DraftPage();
             _mainPage = new MainPage();
             // Step 1. Login to the mail box.
-            _composeMessagePage.FillFullMail("gavruk1337@gmail.com", "Message without star", "Star!").LabelEmail("Add star").SaveDraftMail();
             Log.Info("Login into app");
             _loginPage.Login();
             // Step 2. Create a new mail(fill addressee, subject and body fields). And label it with star
