@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace GmailTA.Pages
 
         public bool VerfiyMailAsSent(string subject)
         {
-            return IsElementExists($"//span[contains(text(),'{subject}')]");
+            return IsElementVisible(By.XPath($"(//span[contains(text(),'{subject}')])[2]"));
         }
     }
 

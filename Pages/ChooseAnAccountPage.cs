@@ -14,20 +14,18 @@ namespace GmailTA.Pages
     {
 
 
-        private const string logout  = "//button[@class=\"sign-out\"]";
-        private const string chooseAnAccountLink  = "https://accounts.google.com/SignOutOptions";
+        private readonly By logout  = By.XPath("//button[@class=\"sign-out\"]");
         public ChooseAnAccountPage() : base()
         {
         }
         public ChooseAnAccountPage LogoutFromAccount()
         {
-            Browser.GetDriver().Navigate().GoToUrl(chooseAnAccountLink);
             ClickOnButton(logout);
             return new ChooseAnAccountPage();
         }
         public bool VerfiyLogoutIsSuccessfull()
         {
-            return IsElementVisible($"(//div[@data-email=\"{accoutEmail}\"]//ancestor::div[1]//following-sibling::div)[2]");
+            return IsElementVisible(By.Id($"account-{accoutEmail}"));
         }
 
     }

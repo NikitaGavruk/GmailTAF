@@ -12,25 +12,24 @@ namespace GmailTA.Pages
     public class LoginPage : AbstractPage
     {
 
-        private const string logInField = "//input[@type=\"email\"]";
-        private const string passwordField  = "//input[@type=\"password\"]";
-        private const string nextButton  = "//span[text()=\"Next\"]";
+        private By logInField = By.Name("identifier");
+        private By passwordField  = By.XPath("//input[@type=\"password\"]");
+        private By nextButton  = By.XPath("//span[text()=\"Next\"]");
 
-        private const String password = "932Or%FxruWt";
         public LoginPage() : base()
         {
         }
-        public LoginPage Login()
+        public MainPage Login()
         {
             InputTextInFieldByActions(logInField, accoutEmail);
             MouseDown(nextButton);
             InputTextInFieldByJS(passwordField, password);
             MouseDownByJS(nextButton);
-            return new LoginPage();
+            return new MainPage();
         }
         public bool IsLoginWasSuccessfull()
         {
-            return IsElementVisible("(//span[contains(text(),'Gmail')])[1]");
+            return IsElementVisible(By.XPath($"//a[contains(@aria-label,\"{accoutEmail}\")]"));
         }
 
     }
