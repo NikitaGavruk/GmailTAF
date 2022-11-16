@@ -15,24 +15,28 @@ namespace GmailTA.Pages
         private  By starElementXpath = By.XPath("//span[@aria-label=\"Starred\"]");
         private  By discardDraftButtonXpath = By.XPath("//div[contains(text(),\"Discard draft\")]");
         private  By selectedMessagesXpath = By.XPath("//span[text()=\"Draft\"]//ancestor::tbody//div[@role=\"checkbox\" and @aria-checked=\"true\"]");
+        private string messageWithSubjectInDraftFolder = "//span[text()=\"Draft\"]//ancestor::tbody//span[contains(text(),'{0}')]";
+        private string draftOptionXpath = "(//div[text()=\"{0}\"]//ancestor::div[@role=\"menuitem\"])[2]";
+        private string moreOptionXpath = "//div[text()=\"{0}\"]";
+
         public DraftPage() : base()
         {
         }
 
-        public bool VerfiyMailAsDraft(String subject)
+        public bool VerifyMailExistsInDraftFolder(String subject)
         {
-            return IsElementExists(By.XPath($"//span[text()=\"Draft\"]//ancestor::tbody//span[contains(text(),'{subject}')]"));
+            return IsElementExists(FormatXpath(messageWithSubjectInDraftFolder,subject));
         }
         public DraftPage SortDraftMessages(String option)
         {
             ClickOnButton(selectXpath);
-            ClickOnButton(By.XPath($"(//div[text()=\"{option}\"]//ancestor::div[@role=\"menuitem\"])[2]"));
+            ClickOnButton(FormatXpath(draftOptionXpath,option));
             return new DraftPage();
         }
         public DraftPage ChooseOptionMoreMenu(String option)
         {
             ClickOnButton(moreXpath);
-            ClickOnButton(By.XPath($"//div[text()=\"{option}\"]"));
+            ClickOnButton(FormatXpath(moreOptionXpath, option));
             return new DraftPage();
         }
         public DraftPage DiscardDraft()
@@ -40,15 +44,15 @@ namespace GmailTA.Pages
             ClickOnButton(discardDraftButtonXpath);
             return new DraftPage();
         }
-        public bool IsMessageWithStarExists()
+        public bool IsMessageWithStarExistsInDraftFolder()
         {
             return IsElementExists(starElementXpath);
             
         }
         public int GetSelectedMessagesCount()
         {
-            IsElementVisible(selectedMessagesXpath);
-            return Browser.GetDriver().FindElements(selectedMessagesXpath).Count();
+            WaitUntilElementIsVisible(selectedMessagesXpath);
+            return Browser.GetDriver().FindElements(selectedMessagesXpath).Count;
 
         }
     }

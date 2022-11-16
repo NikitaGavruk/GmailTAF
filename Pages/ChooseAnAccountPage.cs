@@ -15,6 +15,7 @@ namespace GmailTA.Pages
 
 
         private readonly By logout  = By.XPath("//button[@class=\"sign-out\"]");
+        private readonly string accountInSignOutState = "//div[@data-identifier=\"{0}\"]//div[contains(text(),\"Signed out\")]";
         public ChooseAnAccountPage() : base()
         {
         }
@@ -25,7 +26,7 @@ namespace GmailTA.Pages
         }
         public bool VerfiyLogoutIsSuccessfull()
         {
-            return IsElementVisible(By.Id($"account-{accoutEmail}"));
+            return IsElementVisible(FormatXpath(accountInSignOutState, accoutEmail));
         }
 
     }

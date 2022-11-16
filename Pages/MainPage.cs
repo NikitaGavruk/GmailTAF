@@ -13,7 +13,7 @@ namespace GmailTA.Pages
     public class MainPage : AbstractPage
     {
 
-        public By writeMailButtonXpath  = By.XPath("//*[text()=\"Compose\"]//ancestor::div[1]");
+        public By writeMailButtonXpath  = By.XPath("//*[text()=\"Compose\"][@role='button']");
         public By draftsTabXpath  = By.XPath("//a[contains(@aria-label,\"Drafts\")]");
         public By sentPageXpath = By.XPath("//a[contains(@aria-label,\"Sent\")]");
         public By scheduledPageXpath = By.XPath("//a[contains(@aria-label,\"Scheduled\")]");

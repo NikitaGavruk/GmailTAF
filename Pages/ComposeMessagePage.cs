@@ -12,12 +12,12 @@ namespace GmailTA.Pages
     {
         private By subjectXpath = By.XPath("(//input[contains(@name,\"subjectbox\")])");
         private By bodyXpath = By.XPath("(//div[contains(@aria-label,\"Message Body\")])");
-
+        private string emailLabelOption = "//div[contains(text(),'{0}')]";
         private By toXpath = By.XPath("//div[@aria-label=\"To\"]//input");
-
+        private string expandMailWithSubjectXpath = "(//span[contains(text(),'{0}')])[2]";
         private By collapseXpath = By.XPath("(//*[contains(@alt,\"Minimize\")])");
-        private By sendButtonXpath = By.XPath("(//*[contains(@aria-label,\"Send\")])[2]");
-
+        private By sendButtonXpath = By.XPath("//div[@role='dialog']//*[contains(@aria-label,\"Send\")]");
+        private By mailToXpath = By.XPath("//div[@role='dialog']//span[@email]");
         private By sendOptionXpath = By.XPath("//div[@aria-label=\"More send options\"]");
         private By scheduledSend = By.XPath("//div[@selector=\"scheduledSend\"]");
         private By discardDraftXpath = By.XPath("//div[contains(@aria-label,'Discard draft')]");
@@ -39,7 +39,7 @@ namespace GmailTA.Pages
         {
             ClickOnButton(moreOptionXpath);
             ClickOnButton(labelXpath);
-            ClickOnButton(By.XPath($"//div[contains(text(),'{option}')]"));
+            ClickOnButton(FormatXpath(emailLabelOption,option));
             return new ComposeMessagePage();
         }
         public ScheduledSendTab ClickScheduledSendOption()
@@ -60,12 +60,12 @@ namespace GmailTA.Pages
 
             return new ComposeMessagePage();
         }
-        public ComposeMessagePage VerfiyDraftMailSameAsExpected(string mailAdressTo, string subject, string bodyMail)
+        public bool IsMessageHasExpectedValuesInFields(string mailAdressTo, string subject, string bodyMail)
         {
-            mailAdressTo.Equals(GetTextFromField(By.XPath($"//span[@email=\"{mailAdressTo}\"]")));
-            subject.Equals(GetTextFromField(subjectXpath));
-            bodyMail.Equals(GetTextFromField(bodyXpath));
-            return new ComposeMessagePage();
+            var isAdressSame = mailAdressTo.Equals(GetTextFromField(mailToXpath));
+            var isSubjectSame = subject.Equals(GetAttributeValueFromField(subjectXpath, "value"));
+            var isBodySame = bodyMail.Equals(GetTextFromField(bodyXpath));
+            return isAdressSame && isSubjectSame && isBodySame;
         }
         public MainPage CollapseMail()
         {
@@ -79,23 +79,10 @@ namespace GmailTA.Pages
         }
         public ComposeMessagePage ExpandMail(String subject)
         {
-            ClickOnButton(By.XPath($"(//span[contains(text(),'{subject}')])[2]"));
+            ClickOnButton(FormatXpath(expandMailWithSubjectXpath, subject));
             return new ComposeMessagePage();
         }
-
-
     }
-    public class ScheduledSendTab : AbstractPage
-    {
-        public ScheduledSendTab()
-        {
-        }
 
-        public ScheduledSendTab ChooseEmailSendSchedule(String scheduledOption)
-        {
-            ClickOnButton(By.XPath($"//div[text()=\"{scheduledOption}\"]"));
-            return new ScheduledSendTab();
-        }
-    }
 
 }
