@@ -18,6 +18,7 @@ namespace GmailTA.Pages
         private string messageWithSubjectInDraftFolder = "//span[text()=\"Draft\"]//ancestor::tbody//span[contains(text(),'{0}')]";
         private string draftOptionXpath = "(//div[text()=\"{0}\"]//ancestor::div[@role=\"menuitem\"])[2]";
         private string moreOptionXpath = "//div[text()=\"{0}\"]";
+        private string expandMailWithSubjectXpath = "//div[@role='main']//tbody//div[@role='link']//span[contains(text(),'{0}')]";
 
         public DraftPage() : base()
         {
@@ -54,6 +55,11 @@ namespace GmailTA.Pages
             WaitUntilElementIsVisible(selectedMessagesXpath);
             return Browser.GetDriver().FindElements(selectedMessagesXpath).Count;
 
+        }
+        public ComposeMessagePage ExpandMailByClickOnItInDraftFolder(String subject)
+        {
+            ClickOnButton(FormatXpath(expandMailWithSubjectXpath, subject));
+            return new ComposeMessagePage();
         }
     }
 }

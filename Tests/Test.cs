@@ -33,7 +33,7 @@ namespace GmailTA.Tests
             // Step 5. Verify, that the mail present in 'Draft' folder
             Assert.IsTrue(_draftPage.VerifyMailExistsInDraftFolder(subject));
             // Step 6. Verify the draft content(addressee, subject and body – should be the same as in 3).
-            _composeMessagePage.ExpandMail(subject);
+            _draftPage.ExpandMailByClickOnItInDraftFolder(subject);
             Assert.IsTrue(_composeMessagePage.IsMessageHasExpectedValuesInFields(emailAdress, subject, body));
             // Step 7. Send the mail.
             _composeMessagePage.SendMail();

@@ -14,7 +14,6 @@ namespace GmailTA.Pages
         private By bodyXpath = By.XPath("(//div[contains(@aria-label,\"Message Body\")])");
         private string emailLabelOption = "//div[contains(text(),'{0}')]";
         private By toXpath = By.XPath("//div[@aria-label=\"To\"]//input");
-        private string expandMailWithSubjectXpath = "(//span[contains(text(),'{0}')])[2]";
         private By collapseXpath = By.XPath("(//*[contains(@alt,\"Minimize\")])");
         private By sendButtonXpath = By.XPath("//div[@role='dialog']//*[contains(@aria-label,\"Send\")]");
         private By mailToXpath = By.XPath("//div[@role='dialog']//span[@email]");
@@ -75,11 +74,6 @@ namespace GmailTA.Pages
         public ComposeMessagePage SaveDraftMail()
         {
             ClickOnButton(saveDraftMailXpath);
-            return new ComposeMessagePage();
-        }
-        public ComposeMessagePage ExpandMail(String subject)
-        {
-            ClickOnButton(FormatXpath(expandMailWithSubjectXpath, subject));
             return new ComposeMessagePage();
         }
     }
