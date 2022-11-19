@@ -15,107 +15,129 @@ namespace GmailTA.Pages
         }
 
 
-        public static void ClickOnButton(By xpath)
+        protected static void ClickOnButton(By xpath)
         {
             WaitUntilElementIsVisible(xpath);
             WaitUntilElementIsClickable(xpath);
             Browser.GetDriver().FindElement(xpath).Click();
         }
-        public static string GetTextFromField(By xpath)
+        protected static string GetTextFromField(By xpath)
         {
             WaitUntilElementIsVisible(xpath);
             return Browser.GetDriver().FindElement(xpath).Text;
         }
-        public static string GetAttributeValueFromField(By xpath, string attribute)
+        protected static string GetAttributeValueFromField(By xpath, string attribute)
         {
             WaitUntilElementIsVisible(xpath);
             return Browser.GetDriver().FindElement(xpath).GetAttribute(attribute);
         }
-        public static void InputTextInField(By xpath, String input)
+        protected static void InputTextInField(By xpath, String input)
         {
             WaitUntilElementIsVisible(xpath);
             Browser.GetDriver().FindElement(xpath).SendKeys(input);
         }
-        public static bool IsElementVisible(By xpath)
+        protected static bool IsElementVisible(By xpath)
         {
             bool status = true;
             try
             {
+                new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(6)).Until(ExpectedConditions.ElementIsVisible(xpath));
+            }
+            catch (WebDriverTimeoutException ex)
+            {
+                Assert.That(ex.Message, Is.EqualTo("Timed out after 6 seconds"));
+                status = false;
+            }
+            return status;
+        }
+        protected static bool IsElementExists(By xpath)
+        {
+            bool status = true;
+            try
+            {
+                new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(2)).Until(ExpectedConditions.ElementExists(xpath));
+            }
+            catch (WebDriverTimeoutException ex)
+            {
+                Assert.That(ex.Message, Is.EqualTo("Timed out after 2 seconds"));
+                status = false;
+            }
+            return status;
+        }
+        protected static bool IsElementClickable(By xpath)
+        {
+            bool status = true;
+            try
+            {
+                new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(3)).Until(ExpectedConditions.ElementToBeClickable(xpath));
+            }
+            catch (WebDriverTimeoutException ex)
+            {
+                Assert.That(ex.Message, Is.EqualTo("Timed out after 3 seconds"));
+                status = false;
+            }
+            return status;
+        }
+        public bool VerfiyMailVisibleInFolder<T>(string xpath, string subject) where T : AbstractPage
+        {
+            return IsElementVisible(FormatXpath(xpath, subject));
+        }
+        protected static void WaitUntilElementIsVisible(By xpath)
+        {
                 new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(10)).Until(ExpectedConditions.ElementIsVisible(xpath));
-            }
-            catch (WebDriverTimeoutException ex)
-            {
-                Assert.That(ex.Message, Is.EqualTo("Timed out after 10 seconds"));
-                status = false;
-            }
-            return status;
         }
-        public static bool IsElementExists(By xpath)
+        protected static void WaitUntilElementIsExists(By xpath)
         {
-            bool status = true;
-            try
-            {
-                new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(10)).Until(ExpectedConditions.ElementExists(xpath));
-            }
-            catch (WebDriverTimeoutException ex)
-            {
-                Assert.That(ex.Message, Is.EqualTo("Timed out after 10 seconds"));
-                status = false;
-            }
-            return status;
+                new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(2)).Until(ExpectedConditions.ElementExists(xpath));
         }
-        public static bool IsElementClickable(By xpath)
-        {
-            bool status = true;
-            try
-            {
-                new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(10)).Until(ExpectedConditions.ElementToBeClickable(xpath));
-            }
-            catch (WebDriverTimeoutException ex)
-            {
-                Assert.That(ex.Message, Is.EqualTo("Timed out after 10 seconds"));
-                status = false;
-            }
-            return status;
-        }
-        public static void WaitUntilElementIsVisible(By xpath)
-        {
-                new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(10)).Until(ExpectedConditions.ElementIsVisible(xpath));
-        }
-        public static void WaitUntilElementIsExists(By xpath)
-        {
-                new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(10)).Until(ExpectedConditions.ElementExists(xpath));
-        }
-        public static void WaitUntilElementIsClickable(By xpath)
+        protected static void WaitUntilElementIsClickable(By xpath)
         {
 
-                new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(10)).Until(ExpectedConditions.ElementToBeClickable(xpath));
+                new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(3)).Until(ExpectedConditions.ElementToBeClickable(xpath));
         }
-        public static void MouseDown(By xpath)
+        protected static void MouseDown(By xpath)
         {
             WaitUntilElementIsClickable(xpath);
             Browser.GetActions().MoveToElement(Browser.GetDriver().FindElement(xpath)).Click().Perform();
         }
-        public static void InputTextInFieldByActions(By xpath, string keys)
+        protected static void InputTextInFieldByActions(By xpath, string keys)
         {
             WaitUntilElementIsVisible(xpath);
             Browser.GetActions().MoveToElement(Browser.GetDriver().FindElement(xpath)).SendKeys(keys).Perform();
         }
-        public static void InputTextInFieldByJS(By xpath, string keys)
+        protected static void InputTextInFieldByJS(By xpath, string keys)
         {
             WaitUntilElementIsVisible(xpath);
             Browser.GetJSExecuter().ExecuteScript($"arguments[0].value='{keys}';", Browser.GetDriver().FindElement(xpath));
         }
-        public static void MouseDownByJS(By xpath)
+        protected static void MouseDownByJS(By xpath)
         {
             WaitUntilElementIsClickable(xpath);
             Browser.GetJSExecuter().ExecuteScript("arguments[0].click();", Browser.GetDriver().FindElement(xpath));
 
         }
-        public static By FormatXpath(string xpath, string argument)
+        protected static By FormatXpath(string xpath, string argument)
         {
             return By.XPath(string.Format(xpath, argument));
         }
+        public T NavigateToUrl<T>(string url) where T : AbstractPage
+
+        {
+            Browser.GetDriver().Navigate().GoToUrl(url);
+            return (T)Activator.CreateInstance(typeof(T));
+
+        }
+        public T NavigateToPage<T>(By element) where T : AbstractPage
+        {
+            ClickOnButton(element);
+            return (T)Activator.CreateInstance(typeof(T));
+        }
+        public T OpenEmailBySubjectInFolder<T>(string xpath, string subject) where T : AbstractPage
+        {
+            ClickOnButton(FormatXpath(xpath, subject));
+            return (T)Activator.CreateInstance(typeof(T));
+        }
+
     }
  
 

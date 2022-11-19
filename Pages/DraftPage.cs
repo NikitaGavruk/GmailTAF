@@ -15,19 +15,14 @@ namespace GmailTA.Pages
         private  By starElementXpath = By.XPath("//span[@aria-label=\"Starred\"]");
         private  By discardDraftButtonXpath = By.XPath("//div[contains(text(),\"Discard draft\")]");
         private  By selectedMessagesXpath = By.XPath("//span[text()=\"Draft\"]//ancestor::tbody//div[@role=\"checkbox\" and @aria-checked=\"true\"]");
-        private string messageWithSubjectInDraftFolder = "//span[text()=\"Draft\"]//ancestor::tbody//span[contains(text(),'{0}')]";
         private string draftOptionXpath = "(//div[text()=\"{0}\"]//ancestor::div[@role=\"menuitem\"])[2]";
         private string moreOptionXpath = "//div[text()=\"{0}\"]";
-        private string expandMailWithSubjectXpath = "//div[@role='main']//tbody//div[@role='link']//span[contains(text(),'{0}')]";
+        public static readonly string expandMailWithSubjectXpath = "//div[@role='main']//tbody//div[@role='link']//span[contains(text(),'{0}')]";
 
         public DraftPage() : base()
         {
         }
 
-        public bool VerifyMailExistsInDraftFolder(String subject)
-        {
-            return IsElementExists(FormatXpath(messageWithSubjectInDraftFolder,subject));
-        }
         public DraftPage SortDraftMessages(String option)
         {
             ClickOnButton(selectXpath);
@@ -56,10 +51,6 @@ namespace GmailTA.Pages
             return Browser.GetDriver().FindElements(selectedMessagesXpath).Count;
 
         }
-        public ComposeMessagePage ExpandMailByClickOnItInDraftFolder(String subject)
-        {
-            ClickOnButton(FormatXpath(expandMailWithSubjectXpath, subject));
-            return new ComposeMessagePage();
-        }
+
     }
 }

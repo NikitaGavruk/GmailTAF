@@ -9,15 +9,12 @@ namespace GmailTA.Pages
 {
     public class SentPage : AbstractPage
     {
-        private string mailWithSubjectInSentFolderXpath = "//span[contains(text(),'{0}')]";
+        public static readonly string mailWithSubjectInSentFolderXpath = "(//span[contains(text(),'{0}')])[2]";
         public SentPage() : base()
         {
         }
 
-        public bool IsMailExistsInSentFolder(string subject)
-        {
-            return IsElementExists(FormatXpath(mailWithSubjectInSentFolderXpath,subject));
-        }
+
     }
 
 }

@@ -21,9 +21,9 @@ namespace GmailTA.Pages
         }
         public MainPage Login()
         {
-            InputTextInFieldByActions(logInField, accoutEmail);
+            InputTextInFieldByJS(logInField, accoutEmail);
             MouseDown(nextButton);
-            InputTextInFieldByJS(passwordField, password);
+            InputTextInFieldByActions(passwordField, password);
             MouseDownByJS(nextButton);
             return new MainPage();
         }

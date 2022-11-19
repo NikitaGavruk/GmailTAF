@@ -16,6 +16,8 @@ namespace GmailTA.Pages
 
         private readonly By logout  = By.XPath("//button[@class=\"sign-out\"]");
         private readonly string accountInSignOutState = "//div[@data-identifier=\"{0}\"]//div[contains(text(),\"Signed out\")]";
+        public static string chooseAnAccountLink = "http://accounts.google.com/SignOutOptions";
+
         public ChooseAnAccountPage() : base()
         {
         }

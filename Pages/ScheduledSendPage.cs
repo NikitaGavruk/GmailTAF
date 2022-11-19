@@ -10,25 +10,22 @@ namespace GmailTA.Pages
     public class ScheduledSendPage : AbstractPage
     {
         private By cancelSendButtonXpath = By.XPath("//button[contains(text(),'Cancel send')]");
-        private string mailWithSubjectInScheduledFolderXpath = "(//div[text()=\"Messages in Scheduled will be sent at their scheduled time.\"]//ancestor::div[2]//span[contains(text(),'{0}')])[2]";
+        public static readonly string mailWithSubjectInScheduledFolderXpath = "(//div[text()=\"Messages in Scheduled will be sent at their scheduled time.\"]//ancestor::div[2]//span[contains(text(),'{0}')])[2]";
         private string openedMailWithSubjectInScheduledFolder = "(//h2[contains(text(),'{0}')])[1]";
-        private string scheduleOptionXpath = "(//span[contains(text(),'{0}')])[1]";
+        private string openedMailWithMailToInScheduledFolder = "//span[contains(text(),\"Send scheduled\")]//ancestor::div[3]//span[contains(@data-hovercard-id,\"{0}\")]";
+        private string openedMailWithBodyInScheduledFolder = "//span[contains(text(),\"Send scheduled\")]//ancestor::div[3]//div[contains(text(),\"{0}\")]";
+        private string scheduleOptionXpath = "//span[contains(text(),\"Send scheduled\")]//ancestor::div[3]//span[contains(@title,'{0}')]";
         public ScheduledSendPage() : base()
         {
         }
 
-        public bool VerfiyMailExistsInScheduledFolder(string subject)
+
+        public bool IsOpenedMailInScheduledFolderSameAsExpected(string mailTo, string subject, string body)
         {
-            return IsElementVisible(FormatXpath(mailWithSubjectInScheduledFolderXpath,subject));
-        }
-        public ScheduledSendPage ChooseEmailBySubject(string subject)
-        {
-            ClickOnButton(FormatXpath(mailWithSubjectInScheduledFolderXpath, subject));
-            return new ScheduledSendPage();
-        }
-        public bool IsOpenedMailInScheduledFolderSameAsExpected(string subject)
-        {
-            return IsElementVisible(FormatXpath(openedMailWithSubjectInScheduledFolder, subject));
+            var isAdressSame = IsElementVisible(FormatXpath(openedMailWithMailToInScheduledFolder, mailTo));
+            var isSubjectSame = IsElementVisible(FormatXpath(openedMailWithSubjectInScheduledFolder, subject));
+            var isBodySame = IsElementVisible(FormatXpath(openedMailWithBodyInScheduledFolder, body));
+            return isAdressSame && isSubjectSame && isBodySame;
         }
         public bool IsScheduledOptionSameAsExpected(string scheduledOption)
         {
@@ -42,6 +39,9 @@ namespace GmailTA.Pages
     }
     public class ScheduledSendTab : AbstractPage
     {
+        private By dateXpath = By.XPath("//input[@aria-label=\"Date\"]");
+        private By timeXpath = By.XPath("//input[@aria-label=\"Time\"]");
+        private By scheduledSendButtonXpath = By.XPath("//button[text()=\"Schedule send\"]");
         public ScheduledSendTab()
         {
         }
@@ -49,6 +49,17 @@ namespace GmailTA.Pages
         public ScheduledSendTab ChooseEmailSendSchedule(String scheduledOption)
         {
             ClickOnButton(By.XPath($"//div[text()=\"{scheduledOption}\"]"));
+            return new ScheduledSendTab();
+        }
+        public ScheduledSendTab ChooseDate(string month, string day, string year, string time)
+        {
+            InputTextInFieldByJS(dateXpath, month + " " + day + ", " + year);
+            InputTextInFieldByJS(timeXpath, time);
+            return new ScheduledSendTab();
+        }
+        public ScheduledSendTab ClickScheduledSend()
+        {
+            ClickOnButton(scheduledSendButtonXpath);
             return new ScheduledSendTab();
         }
     }
