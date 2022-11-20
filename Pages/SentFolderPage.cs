@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace GmailTA.Pages
 {
-    public class SentPage : AbstractPage
+    public class SentFolderPage : BaseFolderPage
     {
-        public static readonly string mailWithSubjectInSentFolderXpath = "(//span[contains(text(),'{0}')])[2]";
-        public SentPage() : base()
+        public SentFolderPage() : base()
         {
+
         }
 
 

@@ -45,7 +45,6 @@ namespace GmailTA.Pages
             }
             catch (WebDriverTimeoutException ex)
             {
-                Assert.That(ex.Message, Is.EqualTo("Timed out after 6 seconds"));
                 status = false;
             }
             return status;
@@ -59,7 +58,6 @@ namespace GmailTA.Pages
             }
             catch (WebDriverTimeoutException ex)
             {
-                Assert.That(ex.Message, Is.EqualTo("Timed out after 2 seconds"));
                 status = false;
             }
             return status;
@@ -73,14 +71,9 @@ namespace GmailTA.Pages
             }
             catch (WebDriverTimeoutException ex)
             {
-                Assert.That(ex.Message, Is.EqualTo("Timed out after 3 seconds"));
                 status = false;
             }
             return status;
-        }
-        public bool VerfiyMailVisibleInFolder<T>(string xpath, string subject) where T : AbstractPage
-        {
-            return IsElementVisible(FormatXpath(xpath, subject));
         }
         protected static void WaitUntilElementIsVisible(By xpath)
         {
@@ -126,16 +119,6 @@ namespace GmailTA.Pages
             Browser.GetDriver().Navigate().GoToUrl(url);
             return (T)Activator.CreateInstance(typeof(T));
 
-        }
-        public T NavigateToPage<T>(By element) where T : AbstractPage
-        {
-            ClickOnButton(element);
-            return (T)Activator.CreateInstance(typeof(T));
-        }
-        public T OpenEmailBySubjectInFolder<T>(string xpath, string subject) where T : AbstractPage
-        {
-            ClickOnButton(FormatXpath(xpath, subject));
-            return (T)Activator.CreateInstance(typeof(T));
         }
 
     }

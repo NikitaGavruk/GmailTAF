@@ -12,7 +12,7 @@ namespace GmailTA.Pages
     public class LoginPage : AbstractPage
     {
 
-        private By logInField = By.Name("identifier");
+        private By loginField = By.Name("identifier");
         private By passwordField  = By.XPath("//input[@type=\"password\"]");
         private By nextButton  = By.XPath("//span[text()=\"Next\"]");
         private string emailIconElementXpath = "//a[contains(@aria-label,\"{0}\")]";
@@ -21,7 +21,7 @@ namespace GmailTA.Pages
         }
         public MainPage Login()
         {
-            InputTextInFieldByJS(logInField, accoutEmail);
+            InputTextInFieldByJS(loginField, accoutEmail);
             MouseDown(nextButton);
             InputTextInFieldByActions(passwordField, password);
             MouseDownByJS(nextButton);

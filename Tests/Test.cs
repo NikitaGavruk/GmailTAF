@@ -33,24 +33,24 @@ namespace GmailTA.Tests
             // Step 3. Create a new mail
             // Step 4. Save the mail as draft
             var _composeMessagePage = _mainPage.ClickComposeButton().FillFullMail(emailAdress, subject, body);
-            _composeMessagePage.CollapseMail();
-            var _draftPage = _mainPage.NavigateToPage<DraftPage>(MainPage.draftsTabXpath);
+            _composeMessagePage.ClickCollapseMailButton();
+            var _draftPage = _mainPage.ClickOnFolder<DraftsFolderPage>("Drafts");
             // Step 5. Verify, that the mail present in 'Draft' folder
-            Assert.IsTrue(_draftPage.VerfiyMailVisibleInFolder<DraftPage>(DraftPage.expandMailWithSubjectXpath,subject));
+            Assert.IsTrue(_draftPage.VerfiyMailVisibleInFolder<DraftsFolderPage>(subject));
             // Step 6. Verify the draft content(addressee, subject and body – should be the same as in 3).
-            _draftPage.OpenEmailBySubjectInFolder<DraftPage>(DraftPage.expandMailWithSubjectXpath,subject);
+            _draftPage.OpenEmailBySubjectInFolder<DraftsFolderPage>(subject);
             Assert.IsTrue(_composeMessagePage.IsMessageHasExpectedValuesInFields(emailAdress, subject, body));
             // Step 7. Send the mail.
             _composeMessagePage.SendMail();
-            _mainPage.NavigateToPage<DraftPage>(MainPage.draftsTabXpath);
+            _mainPage.ClickOnFolder<DraftsFolderPage>("Drafts");
             // Step 8. Verify, that the mail disappeared from ‘Drafts’ folder.
-            Assert.IsFalse(_draftPage.VerfiyMailVisibleInFolder<DraftPage>(DraftPage.expandMailWithSubjectXpath, subject));
+            Assert.IsFalse(_draftPage.VerfiyMailVisibleInFolder<DraftsFolderPage>(subject));
             // Step 9.Verify, that the mail is in ‘Sent’ folder.
-            var _sentPage = _mainPage.NavigateToPage<SentPage>(MainPage.sentPageXpath);
-            Assert.IsTrue(_sentPage.VerfiyMailVisibleInFolder<SentPage>(SentPage.mailWithSubjectInSentFolderXpath, subject));
+            var _sentPage = _mainPage.ClickOnFolder<SentFolderPage>("Sent");
+            Assert.IsTrue(_sentPage.VerfiyMailVisibleInFolder<SentFolderPage>(subject));
             // Step 10.	Log off.
             var _chooseAnAccountPage = _mainPage.NavigateToUrl<ChooseAnAccountPage>(ChooseAnAccountPage.chooseAnAccountLink);
-            _chooseAnAccountPage.LogoutFromAccount();
+            _chooseAnAccountPage.ClickLogoutButton();
             Assert.IsTrue(_chooseAnAccountPage.VerfiyLogoutIsSuccessfull());
 
         }
@@ -66,9 +66,9 @@ namespace GmailTA.Tests
             // Step 3.	Schedule send for the mail using ‘Select Date and time’ option in ‘Schedule send’ dialog.
             _scheduledSendTab.ChooseEmailSendSchedule("Pick date & time").ChooseDate(scheduledMonth, scheduledDay,scheduledYear,scheduledTime).ClickScheduledSend();
             //  Step 4.	Verify that the mail is present in ‘Scheduled’ folder.
-            var _scheduledSendPage = _mainPage.NavigateToPage<ScheduledSendPage>(MainPage.scheduledPageXpath);
-            Assert.IsTrue(_scheduledSendPage.VerfiyMailVisibleInFolder<ScheduledSendPage>(ScheduledSendPage.mailWithSubjectInScheduledFolderXpath,subject));
-            _scheduledSendPage.OpenEmailBySubjectInFolder<ScheduledSendPage>(ScheduledSendPage.mailWithSubjectInScheduledFolderXpath,subject);
+            var _scheduledSendPage = _mainPage.ClickOnFolder<ScheduledFolderPage>("Scheduled");
+            Assert.IsTrue(_scheduledSendPage.VerfiyMailVisibleInFolder<ScheduledFolderPage>(subject));
+            _scheduledSendPage.OpenEmailBySubjectInFolder<ScheduledFolderPage>(subject);
             //  Step 5.	Verify the mail content(addressee, subject and body – should be the same as in step 2).
             Assert.IsTrue(_scheduledSendPage.IsOpenedMailInScheduledFolderSameAsExpected(emailAdress, subject, body));
             //  Step 6.Verify the scheduled time.
@@ -76,16 +76,16 @@ namespace GmailTA.Tests
             //  Step 7.	Cancel send.
             _scheduledSendPage.CancelSend();
             //  Step 8.	Verify that the mail disappeared from ‘Scheduled’ folder.
-            Assert.IsFalse(_scheduledSendPage.VerfiyMailVisibleInFolder<ScheduledSendPage>(ScheduledSendPage.mailWithSubjectInScheduledFolderXpath, subject));
+            Assert.IsFalse(_scheduledSendPage.VerfiyMailVisibleInFolder<ScheduledFolderPage>(subject));
             //  Step 9. Verify that the mail is returned to draft state and is shown in Compose mail popup with all fields filled(addressee, subject and body – should be the same as in step 2).
-            var _draftPage = _mainPage.NavigateToPage<DraftPage>(MainPage.draftsTabXpath);
+            var _draftPage = _mainPage.ClickOnFolder<DraftsFolderPage>("Drafts");
             Assert.IsTrue(_composeMessagePage.IsMessageHasExpectedValuesInFields(emailAdress, subject, body));
-            Assert.IsTrue(_draftPage.VerfiyMailVisibleInFolder<DraftPage>(DraftPage.expandMailWithSubjectXpath, subject));
+            Assert.IsTrue(_draftPage.VerfiyMailVisibleInFolder<DraftsFolderPage>(subject));
             //  Step 10. Discard draft.
             _composeMessagePage.DiscardDraft();
             // Step 11.	Log off.
             var _chooseAnAccountPage = _mainPage.NavigateToUrl<ChooseAnAccountPage>(ChooseAnAccountPage.chooseAnAccountLink);
-            _chooseAnAccountPage.LogoutFromAccount();
+            _chooseAnAccountPage.ClickLogoutButton();
             Assert.IsTrue(_chooseAnAccountPage.VerfiyLogoutIsSuccessfull());
 
         }
@@ -97,16 +97,16 @@ namespace GmailTA.Tests
             var _mainPage = _loginPage.Login();
             // Step 2. Create a new mail(fill addressee, subject and body fields). And label it with star
             Log.Debug("FillFullMail", emailAdress + ", Message without star, Star!");
-            _mainPage.ClickComposeButton().FillFullMail(emailAdress, "Message without star", "Star!").LabelEmail("Add star").SaveDraftMail();
+            _mainPage.ClickComposeButton().FillFullMail(emailAdress, "Message without star", "Star!").LabelEmail("Add star").ClickSaveAndCloseMail();
             // Step 3. Create another draft without any label.
             Log.Debug("FillFullMail", emailAdress + ", Message with star, Where is star?");
-            _mainPage.ClickComposeButton().FillFullMail(emailAdress, "Message with star", "Where is star?").SaveDraftMail();
+            _mainPage.ClickComposeButton().FillFullMail(emailAdress, "Message with star", "Where is star?").ClickSaveAndCloseMail();
             //  Step 4.	Verify that both mails are present in ‘Drafts’ folder.
-            var _draftPage = _mainPage.NavigateToPage<DraftPage>(MainPage.draftsTabXpath);
+            var _draftPage = _mainPage.ClickOnFolder<DraftsFolderPage>("Drafts");
             Log.Debug("VerifyMailExistsInDraftFolder", "without star");
-            Assert.IsTrue(_draftPage.VerfiyMailVisibleInFolder<DraftPage>(DraftPage.expandMailWithSubjectXpath,"without star"));
+            Assert.IsTrue(_draftPage.VerfiyMailVisibleInFolder<DraftsFolderPage>("without star"));
             Log.Debug("VerifyMailExistsInDraftFolder", "with star");
-            Assert.IsTrue(_draftPage.VerfiyMailVisibleInFolder<DraftPage>(DraftPage.expandMailWithSubjectXpath, "with star"));
+            Assert.IsTrue(_draftPage.VerfiyMailVisibleInFolder<DraftsFolderPage>("with star"));
             //  Step 5.	In Select dropdown in the toolbar select ‘Starred’ option.
             Log.Debug("SortDraftMessages", "Starred");
             _draftPage.SortDraftMessages("Starred");
@@ -120,16 +120,16 @@ namespace GmailTA.Tests
             //  Step 9. Verify both drafts are selected
             Assert.That(_draftPage.GetSelectedMessagesCount().Equals(2));
             //  Step 10. Click Discard drafts in the toolbar
-            _draftPage.DiscardDraft();
+            _draftPage.ClickDiscardDraft();
             // Step 11. Verify the drafts are deleted
             Log.Debug("VerfiyMailAsDraft", "without star");
-            Assert.IsFalse(_draftPage.VerfiyMailVisibleInFolder<DraftPage>(DraftPage.expandMailWithSubjectXpath,"without star")); 
+            Assert.IsFalse(_draftPage.VerfiyMailVisibleInFolder<DraftsFolderPage>("without star")); 
             Log.Debug("VerfiyMailAsDraft", "with star");
-            Assert.IsFalse(_draftPage.VerfiyMailVisibleInFolder<DraftPage>(DraftPage.expandMailWithSubjectXpath,"with star")); 
+            Assert.IsFalse(_draftPage.VerfiyMailVisibleInFolder<DraftsFolderPage>("with star")); 
             //  Step 12. Log off.
             Log.Info("Logout");
             var _chooseAnAccountPage = _mainPage.NavigateToUrl<ChooseAnAccountPage>(ChooseAnAccountPage.chooseAnAccountLink);
-            _chooseAnAccountPage.LogoutFromAccount();
+            _chooseAnAccountPage.ClickLogoutButton();
             Assert.IsTrue(_chooseAnAccountPage.VerfiyLogoutIsSuccessfull());
 
         }

@@ -13,22 +13,26 @@ namespace GmailTA.Pages
     public class MainPage : AbstractPage
     {
 
-        private By writeMailButtonXpath  = By.XPath("//*[text()=\"Compose\"][@role='button']");
-        public static readonly By draftsTabXpath  = By.XPath("//a[contains(@aria-label,\"Drafts\")]");
-        public static readonly By sentPageXpath = By.XPath("//a[contains(@aria-label,\"Sent\")]");
-        public static readonly By scheduledPageXpath = By.XPath("//a[contains(@aria-label,\"Scheduled\")]");
-        
+        private By composeMailButtonXpath  = By.XPath("//*[text()=\"Compose\"][@role='button']");
+        private string folderXpath = "//a[text() =\"{0}\"]";
+        private static readonly string draftsName = "Drafts";
+        private static readonly string sentName = "Sent";
+        private static readonly string scheduledName = "Scheduled";
 
 
         public MainPage() : base()
         {
         }
-        public ComposeMessagePage ClickComposeButton()
+        public ComposeMessageDialog ClickComposeButton()
         {
-            ClickOnButton(writeMailButtonXpath);
-            return new ComposeMessagePage();
+            ClickOnButton(composeMailButtonXpath);
+            return new ComposeMessageDialog();
         }
-
+        public T ClickOnFolder<T>(string folderName) where T : AbstractPage
+        {
+            ClickOnButton(FormatXpath(folderXpath, folderName));
+            return (T)Activator.CreateInstance(typeof(T));
+        }
 
     }
 
