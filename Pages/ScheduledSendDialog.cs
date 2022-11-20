@@ -7,31 +7,31 @@ using System.Threading.Tasks;
 
 namespace GmailTA.Pages
 {
-    public class ScheduledSendTab : AbstractPage
+    public class ScheduledSendDialog : AbstractPage
     {
         private By dateFieldXpath = By.XPath("//input[@aria-label=\"Date\"]");
         private By timeFieldXpath = By.XPath("//input[@aria-label=\"Time\"]");
         private By scheduledSendButtonXpath = By.XPath("//button[text()=\"Schedule send\"]");
         private string schudeledOptionTextXpath = "//div[text()=\"{0}\"]";
-        public ScheduledSendTab()
+        public ScheduledSendDialog()
         {
         }
 
-        public ScheduledSendTab ChooseEmailSendSchedule(String scheduledOption)
+        public ScheduledSendDialog ChooseEmailSendSchedule(String scheduledOption)
         {
             ClickOnButton(FormatXpath(schudeledOptionTextXpath,scheduledOption));
-            return new ScheduledSendTab();
+            return new ScheduledSendDialog();
         }
-        public ScheduledSendTab ChooseDate(string month, string day, string year, string time)
+        public ScheduledSendDialog ChooseDate(string month, string day, string year, string time)
         {
             InputTextInFieldByJS(dateFieldXpath, month + " " + day + ", " + year);
             InputTextInFieldByJS(timeFieldXpath, time);
-            return new ScheduledSendTab();
+            return new ScheduledSendDialog();
         }
-        public ScheduledSendTab ClickScheduledSend()
+        public ScheduledSendDialog ClickScheduledSend()
         {
             ClickOnButton(scheduledSendButtonXpath);
-            return new ScheduledSendTab();
+            return new ScheduledSendDialog();
         }
     }
 }

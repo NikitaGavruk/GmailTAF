@@ -42,11 +42,11 @@ namespace GmailTA.Pages
             ClickOnButton(FormatXpath(emailLabelOption,option));
             return new ComposeMessageDialog();
         }
-        public ScheduledSendTab ClickScheduledSendOption()
+        public ScheduledSendDialog ClickScheduledSendOption()
         {
             ClickOnButton(moreSendOptionButtonXpath);
             ClickOnButton(scheduledSendOption);
-            return new ScheduledSendTab();
+            return new ScheduledSendDialog();
 
         }
         public ComposeMessageDialog DiscardDraft()
