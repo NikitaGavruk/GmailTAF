@@ -15,7 +15,6 @@ namespace GmailTA.Pages
         private By loginField = By.Name("identifier");
         private By passwordField  = By.XPath("//input[@type=\"password\"]");
         private By nextButton  = By.XPath("//span[text()=\"Next\"]");
-        private string emailIconElementXpath = "//a[contains(@aria-label,\"{0}\")]";
         public LoginPage() : base()
         {
         }
@@ -26,10 +25,6 @@ namespace GmailTA.Pages
             InputTextInFieldByActions(passwordField, password);
             MouseDownByJS(nextButton);
             return new MainPage();
-        }
-        public bool IsLoginWasSuccessfull()
-        {
-            return IsElementExists(FormatXpath(emailIconElementXpath, accoutEmail));
         }
 
     }

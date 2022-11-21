@@ -18,17 +18,22 @@ namespace GmailTA.Pages
         public static readonly string draftsName = "Drafts";
         public static readonly string sentName = "Sent";
         public static readonly string scheduledName = "Scheduled";
+        private string emailIconElementXpath = "//a[contains(@aria-label,\"{0}\")]";
 
 
         public MainPage() : base()
         {
+        }
+        public bool IsLoginWasSuccessfull()
+        {
+            return IsElementExists(FormatXpath(emailIconElementXpath, accoutEmail));
         }
         public ComposeMessageDialog ClickComposeButton()
         {
             ClickOnButton(composeMailButtonXpath);
             return new ComposeMessageDialog();
         }
-        public T ClickOnFolder<T>(string folderName) where T : AbstractPage
+        public T ClickOnFolder<T>(string folderName) where T : BaseFolderPage
         {
             ClickOnButton(FormatXpath(folderXpath, folderName));
             return (T)Activator.CreateInstance(typeof(T));
