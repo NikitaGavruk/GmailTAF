@@ -15,7 +15,7 @@ namespace GmailTA.Pages
             ClickOnButton(FormatXpath(mailInFolderXpath, subject));
             return (T)Activator.CreateInstance(typeof(T));
         }
-        public bool VerfiyMailVisibleInFolder<T>(string subject) where T : AbstractPage
+        public bool VerfiyMailVisibleInFolder(string subject)
         {
             return IsElementVisible(FormatXpath(mailInFolderXpath, subject));
         }

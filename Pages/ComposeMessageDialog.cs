@@ -49,16 +49,16 @@ namespace GmailTA.Pages
             return new ScheduledSendDialog();
 
         }
-        public ComposeMessageDialog DiscardDraft()
+        public MainPage DiscardDraft()
         {
             ClickOnButton(discardDraftButtonXpath);
-            return new ComposeMessageDialog();
+            return new MainPage();
         }
-        public ComposeMessageDialog SendMail()
+        public MainPage SendMail()
         {
             ClickOnButton(sendButtonXpath);
 
-            return new ComposeMessageDialog();
+            return new MainPage();
         }
         public bool IsMessageHasExpectedValuesInFields(string mailAdressTo, string subject, string bodyMail)
         {
@@ -72,10 +72,10 @@ namespace GmailTA.Pages
             ClickOnButton(minimizeButtonXpath);
             return new MainPage();
         }
-        public ComposeMessageDialog ClickSaveAndCloseMail()
+        public MainPage ClickSaveAndCloseMail()
         {
             ClickOnButton(saveAndCloseMailButtonXpath);
-            return new ComposeMessageDialog();
+            return new MainPage();
         }
     }
 

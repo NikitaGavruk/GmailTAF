@@ -17,10 +17,10 @@ namespace GmailTA.Pages
         {
         }
 
-        public ScheduledSendDialog ChooseEmailSendSchedule(String scheduledOption)
+        public T ChooseEmailSendSchedule<T>(String scheduledOption) where T : AbstractPage
         {
             ClickOnButton(FormatXpath(schudeledOptionTextXpath,scheduledOption));
-            return new ScheduledSendDialog();
+            return (T)Activator.CreateInstance(typeof(T));
         }
         public ScheduledSendDialog ChooseDate(string month, string day, string year, string time)
         {
@@ -28,10 +28,10 @@ namespace GmailTA.Pages
             InputTextInFieldByJS(timeFieldXpath, time);
             return new ScheduledSendDialog();
         }
-        public ScheduledSendDialog ClickScheduledSend()
+        public MainPage ClickScheduledSend()
         {
             ClickOnButton(scheduledSendButtonXpath);
-            return new ScheduledSendDialog();
+            return new MainPage();
         }
     }
 }

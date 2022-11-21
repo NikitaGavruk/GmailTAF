@@ -29,7 +29,7 @@ namespace GmailTA.Tests
             // Step 1. Login to the mail box.
             var _mainPage = _loginPage.Login();
             // Step 2. Assert that login was successfull
-            Assert.IsTrue(_loginPage.IsLoginWasSuccessfull());
+            Assert.IsTrue(_mainPage.IsLoginWasSuccessfull());
             // Step 3. Create a new mail
             // Step 4. Save the mail as draft
             var _composeMessagePage = _mainPage.ClickComposeButton().FillFullMail(emailAdress, subject, body);
@@ -38,7 +38,7 @@ namespace GmailTA.Tests
             // Step 5. Verify, that the mail present in 'Draft' folder
             Assert.IsTrue(_draftPage.VerfiyMailVisibleInFolder<DraftsFolderPage>(subject));
             // Step 6. Verify the draft content(addressee, subject and body – should be the same as in 3).
-            _draftPage.OpenEmailBySubjectInFolder<DraftsFolderPage>(subject);
+            _draftPage.OpenEmailBySubjectInFolder<ComposeMessageDialog>(subject);
             Assert.IsTrue(_composeMessagePage.IsMessageHasExpectedValuesInFields(emailAdress, subject, body));
             // Step 7. Send the mail.
             _composeMessagePage.SendMail();
