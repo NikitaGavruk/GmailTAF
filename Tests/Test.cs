@@ -96,10 +96,10 @@ namespace GmailTA.Tests
             var _mainPage = _loginPage.Login();
             // Step 2. Create a new mail(fill addressee, subject and body fields). And label it with star
             Log.Debug("FillFullMail", emailAdress + ", Message without star, Star!");
-            _mainPage.ClickComposeButton().FillFullMail(emailAdress, "Message without star", "Star!").LabelEmail("Add star").ClickSaveAndCloseMail();
+            _mainPage.ClickComposeButton().FillFullMail(emailAdress, "Message with star", "Star!").LabelEmail("Add star").ClickSaveAndCloseMail();
             // Step 3. Create another draft without any label.
             Log.Debug("FillFullMail", emailAdress + ", Message with star, Where is star?");
-            _mainPage.ClickComposeButton().FillFullMail(emailAdress, "Message with star", "Where is star?").ClickSaveAndCloseMail();
+            _mainPage.ClickComposeButton().FillFullMail(emailAdress, "Message without star", "Where is star?").ClickSaveAndCloseMail();
             //  Step 4.	Verify that both mails are present in ‘Drafts’ folder.
             var _draftPage = _mainPage.ClickOnFolder<DraftsFolderPage>(MainPage.draftsName);
             Log.Debug("VerifyMailExistsInDraftFolder", "without star");
@@ -109,10 +109,10 @@ namespace GmailTA.Tests
             //  Step 5.	In Select dropdown in the toolbar select ‘Starred’ option.
             Log.Debug("SortDraftMessages", "Starred");
             _draftPage.SortDraftMessages("Starred");
-            //  Step 6. Expand More (three dots) menu in the toolbar and click ‘Remove star’.
+            // Step 6. Verify that only the draft with star label is selected
+            Assert.That(_draftPage.IsMessageSelectedBySubject("Message with star"));
+            //  Step 7. Expand More (three dots) menu in the toolbar and click ‘Remove star’.
             _draftPage.ChooseOptionMoreMenu("Remove star");
-            // Step 7. Verify that only the draft with star label is selected
-            Assert.That(_draftPage.GetSelectedMessagesCount().Equals(1));
             //  Step 8.	Verify the star is removed.
             Assert.IsFalse(_draftPage.IsMessageWithStarExistsInDraftFolder()); 
             //  Step 9.	In Select dropdown select ‘Unstarred’ option
