@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using GmailTA.Entities;
+using GmailTA.Utils;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,53 +30,53 @@ namespace GmailTA.Pages
         {
         }
 
-        public ComposeMessageDialog FillFullMail(string mailAdressTo, string subject, string bodyMail)
+        public ComposeMessageDialog FillFullMail(Message patternMessage)
         {
-            InputTextInField(toFieldXpath, mailAdressTo);
-            InputTextInField(subjectBoxFieldXpath, subject);
-            InputTextInField(messageBodyFieldXpath, bodyMail);
+            WebDriverExtension.InputTextInField(toFieldXpath, patternMessage.DataUser[0]);
+            WebDriverExtension.InputTextInField(subjectBoxFieldXpath, patternMessage.DataUser[1]);
+            WebDriverExtension.InputTextInField(messageBodyFieldXpath, patternMessage.DataUser[2]);
             return new ComposeMessageDialog();
         }
         public ComposeMessageDialog LabelEmail(string option)
         {
-            ClickOnButton(moreOptionButtonXpath);
-            ClickOnButton(labelListButtonXpath);
-            ClickOnButton(FormatXpath(emailLabelOption,option));
+            WebDriverExtension.ClickOnButton(moreOptionButtonXpath);
+            WebDriverExtension.ClickOnButton(labelListButtonXpath);
+            WebDriverExtension.ClickOnButton(WebUtils.FormatXpath(emailLabelOption,option));
             return new ComposeMessageDialog();
         }
         public ScheduledSendDialog ClickScheduledSendOption()
         {
-            ClickOnButton(moreSendOptionButtonXpath);
-            ClickOnButton(scheduledSendOption);
+            WebDriverExtension.ClickOnButton(moreSendOptionButtonXpath);
+            WebDriverExtension.ClickOnButton(scheduledSendOption);
             return new ScheduledSendDialog();
 
         }
         public MainPage DiscardDraft()
         {
-            ClickOnButton(discardDraftButtonXpath);
+            WebDriverExtension.ClickOnButton(discardDraftButtonXpath);
             return new MainPage();
         }
         public MainPage SendMail()
         {
-            ClickOnButton(sendButtonXpath);
+            WebDriverExtension.ClickOnButton(sendButtonXpath);
 
             return new MainPage();
         }
-        public bool IsMessageHasExpectedValuesInFields(string mailAdressTo, string subject, string bodyMail)
+        public bool IsMessageHasExpectedValuesInFields(Message patternMessage)
         {
-            var isAdressSame = mailAdressTo.Equals(GetTextFromField(mailToFieldXpath));
-            var isSubjectSame = subject.Equals(GetAttributeValueFromField(subjectBoxFieldXpath, "value"));
-            var isBodySame = bodyMail.Equals(GetTextFromField(messageBodyFieldXpath));
+            var isAdressSame = patternMessage.DataUser[0].Equals(WebDriverExtension.GetTextFromField(mailToFieldXpath));
+            var isSubjectSame = patternMessage.DataUser[1].Equals(WebDriverExtension.GetAttributeValueFromField(subjectBoxFieldXpath, "value"));
+            var isBodySame = patternMessage.DataUser[2].Equals(WebDriverExtension.GetTextFromField(messageBodyFieldXpath));
             return isAdressSame && isSubjectSame && isBodySame;
         }
         public MainPage ClickCollapseMailButton()
         {
-            ClickOnButton(minimizeButtonXpath);
+            WebDriverExtension.ClickOnButton(minimizeButtonXpath);
             return new MainPage();
         }
         public MainPage ClickSaveAndCloseMail()
         {
-            ClickOnButton(saveAndCloseMailButtonXpath);
+            WebDriverExtension.ClickOnButton(saveAndCloseMailButtonXpath);
             return new MainPage();
         }
     }

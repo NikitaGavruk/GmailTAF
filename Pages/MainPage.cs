@@ -1,4 +1,6 @@
-﻿using GmailTA.WebDrvier;
+﻿using GmailTA.Entities;
+using GmailTA.Utils;
+using GmailTA.WebDrvier;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -24,18 +26,18 @@ namespace GmailTA.Pages
         public MainPage() : base()
         {
         }
-        public bool IsLoginWasSuccessfull()
+        public bool IsLoginWasSuccessfull(User user)
         {
-            return IsElementExists(FormatXpath(emailIconElementXpath, accoutEmail));
+            return WebDriverExtension.IsElementExists(WebUtils.FormatXpath(emailIconElementXpath, user.DataUser[0]));
         }
         public ComposeMessageDialog ClickComposeButton()
         {
-            ClickOnButton(composeMailButtonXpath);
+            WebDriverExtension.ClickOnButton(composeMailButtonXpath);
             return new ComposeMessageDialog();
         }
         public T ClickOnFolder<T>(string folderName) where T : BaseFolderPage
         {
-            ClickOnButton(FormatXpath(folderXpath, folderName));
+            WebDriverExtension.ClickOnButton(WebUtils.FormatXpath(folderXpath, folderName));
             return (T)Activator.CreateInstance(typeof(T));
         }
 

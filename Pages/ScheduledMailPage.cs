@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using GmailTA.Utils;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,21 +19,28 @@ namespace GmailTA.Pages
         {
         }
 
-
-        public bool IsOpenedMailInScheduledFolderSameAsExpected(string mailTo, string subject, string body)
+        public bool IsOpenedMailSubjectInScheduledFolderSameAsExpected(string subject)
         {
-            var isAdressSame = IsElementVisible(FormatXpath(openedMailMailToField, mailTo));
-            var isSubjectSame = IsElementVisible(FormatXpath(openedMailSubjectField, subject));
-            var isBodySame = IsElementVisible(FormatXpath(openedMailBodyField, body));
-            return isAdressSame && isSubjectSame && isBodySame;
+            var isSubjectSame = WebDriverExtension.IsElementVisible(WebUtils.FormatXpath(openedMailSubjectField, subject));
+            return isSubjectSame;
         }
-        public bool IsScheduledOptionSameAsExpected(string scheduledOption)
+        public bool IsOpenedMailToInScheduledFolderSameAsExpected(string mailTo)
         {
-            return IsElementVisible(FormatXpath(messageScheduledLabelXpath, scheduledOption));
+            var isAdressSame = WebDriverExtension.IsElementVisible(WebUtils.FormatXpath(openedMailMailToField, mailTo));
+            return isAdressSame;
+        }
+        public bool IsOpenedMailBodyInScheduledFolderSameAsExpected(string body)
+        {
+            var isBodySame = WebDriverExtension.IsElementVisible(WebUtils.FormatXpath(openedMailBodyField, body));
+            return isBodySame;
+        }
+        public bool IsScheduledOptionSameAsExpected(DateTime scheduledOption)
+        {
+            return WebDriverExtension.IsElementVisible(WebUtils.FormatXpath(messageScheduledLabelXpath, scheduledOption.ToString("MMM %d, yyyy, h:mm tt", System.Globalization.CultureInfo.InvariantCulture)));
         }
         public ScheduledFolderPage CancelSend()
         {
-            ClickOnButton(cancelSendButtonXpath);
+            WebDriverExtension.ClickOnButton(cancelSendButtonXpath);
             return new ScheduledFolderPage();
         }
     }

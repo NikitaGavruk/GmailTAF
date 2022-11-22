@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using GmailTA.Utils;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,18 +20,22 @@ namespace GmailTA.Pages
 
         public T ChooseEmailSendSchedule<T>(String scheduledOption) where T : AbstractPage
         {
-            ClickOnButton(FormatXpath(schudeledOptionTextXpath,scheduledOption));
+            WebDriverExtension.ClickOnButton(WebUtils.FormatXpath(schudeledOptionTextXpath,scheduledOption));
             return (T)Activator.CreateInstance(typeof(T));
         }
-        public ScheduledSendDialog ChooseDate(string month, string day, string year, string time)
+        public ScheduledSendDialog ChooseDate(DateTime dateTime)
         {
-            InputTextInFieldByJS(dateFieldXpath, month + " " + day + ", " + year);
-            InputTextInFieldByJS(timeFieldXpath, time);
+            WebDriverExtension.InputTextInFieldByJS(dateFieldXpath, dateTime.ToString("MMM dd, yyyy", System.Globalization.CultureInfo.InvariantCulture));
+            return new ScheduledSendDialog();
+        }
+        public ScheduledSendDialog ChooseTime(DateTime dateTime)
+        {
+            WebDriverExtension.InputTextInFieldByJS(timeFieldXpath, dateTime.ToString("HH:mm", System.Globalization.CultureInfo.InvariantCulture));
             return new ScheduledSendDialog();
         }
         public MainPage ClickScheduledSend()
         {
-            ClickOnButton(scheduledSendButtonXpath);
+            WebDriverExtension.ClickOnButton(scheduledSendButtonXpath);
             return new MainPage();
         }
     }

@@ -1,4 +1,6 @@
-﻿using GmailTA.WebDrvier;
+﻿using GmailTA.Entities;
+using GmailTA.Utils;
+using GmailTA.WebDrvier;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -24,35 +26,35 @@ namespace GmailTA.Pages
 
         public DraftsFolderPage SortDraftMessages(String option)
         {
-            ClickOnButton(selectSortOptionButtonXpath);
-            ClickOnButton(FormatXpath(sortDraftMessagesOptionXpath,option));
+            WebDriverExtension.ClickOnButton(selectSortOptionButtonXpath);
+            WebDriverExtension.ClickOnButton(WebUtils.FormatXpath(sortDraftMessagesOptionXpath,option));
             return new DraftsFolderPage();
         }
         public DraftsFolderPage ChooseOptionMoreMenu(String option)
         {
-            ClickOnButton(moreButtonXpath);
-            ClickOnButton(FormatXpath(moreOptionXpath, option));
+            WebDriverExtension.ClickOnButton(moreButtonXpath);
+            WebDriverExtension.ClickOnButton(WebUtils.FormatXpath(moreOptionXpath, option));
             return new DraftsFolderPage();
         }
         public DraftsFolderPage ClickDiscardDraft()
         {
-            ClickOnButton(discardDraftButtonXpath);
+            WebDriverExtension.ClickOnButton(discardDraftButtonXpath);
             return new DraftsFolderPage();
         }
         public bool IsMessageWithStarExistsInDraftFolder()
         {
-            return IsElementExists(starredMailsXpath);
+            return WebDriverExtension.IsElementExists(starredMailsXpath);
             
         }
         public int GetSelectedMessagesCount()
         {
-            WaitUntilElementIsVisible(selectedMessagesXpath);
+            WebDriverExtension.WaitUntilElementIsVisible(selectedMessagesXpath);
             return Browser.GetDriver().FindElements(selectedMessagesXpath).Count;
 
         }
-        public bool IsMessageSelectedBySubject(string subject)
+        public bool IsMessageSelectedBySubject(Message patternMessage)
         {
-            return  IsElementVisible(FormatXpath(starredEmailWithSubjectXpath, subject));
+            return WebDriverExtension.IsElementVisible(WebUtils.FormatXpath(starredEmailWithSubjectXpath, patternMessage.DataUser[1]));
 
         }
     }

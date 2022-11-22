@@ -1,4 +1,6 @@
-﻿using GmailTA.WebDrvier;
+﻿using GmailTA.Entities;
+using GmailTA.Utils;
+using GmailTA.WebDrvier;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -23,12 +25,12 @@ namespace GmailTA.Pages
         }
         public ChooseAnAccountPage ClickLogoutButton()
         {
-            ClickOnButton(signOutButton);
+            WebDriverExtension.ClickOnButton(signOutButton);
             return new ChooseAnAccountPage();
         }
-        public bool VerfiyLogoutIsSuccessfull()
+        public bool VerfiyLogoutIsSuccessfull(User user)
         {
-            return IsElementVisible(FormatXpath(signedOutLabelXpath, accoutEmail));
+            return WebDriverExtension.IsElementVisible(WebUtils.FormatXpath(signedOutLabelXpath, user.DataUser[0]));
         }
 
     }

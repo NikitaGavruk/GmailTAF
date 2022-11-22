@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using GmailTA.Utils;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +19,20 @@ namespace GmailTA.Pages
         public LoginPage() : base()
         {
         }
-        public MainPage Login()
+        public LoginPage InputEmail(string accountEmail)
         {
-            InputTextInFieldByJS(loginField, accoutEmail);
-            MouseDown(nextButton);
-            InputTextInFieldByActions(passwordField, password);
-            MouseDownByJS(nextButton);
-            return new MainPage();
+            WebDriverExtension.InputTextInFieldByJS(loginField, accountEmail);
+            return new LoginPage();
+        }
+        public LoginPage InputPassword(string passwrod)
+        {
+            WebDriverExtension.InputTextInFieldByActions(passwordField, passwrod);
+            return new LoginPage();
+        }
+        public T ClickOnNextButton<T>() where T : class
+        {
+            WebDriverExtension.MouseDownByJS(nextButton);
+            return (T)Activator.CreateInstance(typeof(T));
         }
 
     }

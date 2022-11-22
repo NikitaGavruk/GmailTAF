@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GmailTA.Entities;
+using GmailTA.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,14 +12,14 @@ namespace GmailTA.Pages
     {
         private string mailInFolderXpath = "//div[@role='main']//tbody//div[@role='link']//span[contains(text(),'{0}')]";
 
-        public T OpenEmailBySubjectInFolder<T>(string subject) where T : AbstractPage
+        public T OpenEmailBySubjectInFolder<T>(Message patternMessage) where T : AbstractPage
         {
-            ClickOnButton(FormatXpath(mailInFolderXpath, subject));
+            WebDriverExtension.ClickOnButton(WebUtils.FormatXpath(mailInFolderXpath, patternMessage.DataUser[1]));
             return (T)Activator.CreateInstance(typeof(T));
         }
-        public bool VerfiyMailVisibleInFolder(string subject)
+        public bool VerfiyMailVisibleInFolder(Message patternMessage)
         {
-            return IsElementVisible(FormatXpath(mailInFolderXpath, subject));
+            return WebDriverExtension.IsElementVisible(WebUtils.FormatXpath(mailInFolderXpath, patternMessage.DataUser[1]));
         }
     }
 }
