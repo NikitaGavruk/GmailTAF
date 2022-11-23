@@ -110,6 +110,7 @@ namespace GmailTA.Tests
             Log.Debug("SortDraftMessages", "Starred");
             _draftPage.SortDraftMessages("Starred");
             // Step 6. Verify that only the draft with star label is selected
+            Assert.That(_draftPage.GetSelectedMessagesCount().Equals(1));
             Assert.That(_draftPage.IsMessageSelectedBySubject("Message with star"));
             //  Step 7. Expand More (three dots) menu in the toolbar and click ‘Remove star’.
             _draftPage.ChooseOptionMoreMenu("Remove star");
