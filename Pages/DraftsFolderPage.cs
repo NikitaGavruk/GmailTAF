@@ -17,7 +17,6 @@ namespace GmailTA.Pages
         private  By selectedMessagesXpath = By.XPath("//span[text()=\"Draft\"]//ancestor::tbody//div[@role=\"checkbox\" and @aria-checked=\"true\"]");
         private string sortDraftMessagesOptionXpath = "(//div[text()=\"{0}\"]//ancestor::div[@role=\"menuitem\"])[2]";
         private string moreOptionXpath = "//div[text()=\"{0}\"]";
-        private string starredEmailWithSubjectXpath = "//div[@role='main']//tbody//div[@role='link']//span[contains(text(),'{0}')]//ancestor::td//preceding-sibling\t::td//span[@aria-label=\"Starred\"]";
         public DraftsFolderPage() : base()
         {
         }
@@ -50,10 +49,6 @@ namespace GmailTA.Pages
             return Browser.GetDriver().FindElements(selectedMessagesXpath).Count;
 
         }
-        public bool IsMessageSelectedBySubject(string subject)
-        {
-            return  IsElementVisible(FormatXpath(starredEmailWithSubjectXpath, subject));
 
-        }
     }
 }
