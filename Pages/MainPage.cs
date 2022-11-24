@@ -28,7 +28,7 @@ namespace GmailTA.Pages
         }
         public bool IsLoginWasSuccessfull(User user)
         {
-            return WebDriverExtension.IsElementExists(WebUtils.FormatXpath(emailIconElementXpath, user.DataUser[0]));
+            return WebDriverExtension.IsElementExists(WebUtils.FormatXpath(emailIconElementXpath, user.Email));
         }
         public ComposeMessageDialog ClickComposeButton()
         {

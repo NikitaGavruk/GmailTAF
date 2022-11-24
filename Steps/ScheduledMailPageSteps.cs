@@ -9,13 +9,15 @@ using System.Threading.Tasks;
 
 namespace GmailTA.Steps
 {
-    public class ScheduledMailPageSteps : ScheduledMailPage
+    public class ScheduledMailPageSteps
     {
+        readonly ScheduledMailPage _scheduledMail = new ScheduledMailPage();
+
         public bool IsOpenedMailInScheduledFolderSameAsExpected(Message patternMessage)
         {
-            var isAdressSame = IsOpenedMailToInScheduledFolderSameAsExpected(patternMessage.DataUser[0]);
-            var isSubjectSame = IsOpenedMailSubjectInScheduledFolderSameAsExpected(patternMessage.DataUser[1]);
-            var isBodySame = IsOpenedMailBodyInScheduledFolderSameAsExpected(patternMessage.DataUser[2]);
+            var isAdressSame = _scheduledMail.IsOpenedMailToInScheduledFolderSameAsExpected(patternMessage.To);
+            var isSubjectSame = _scheduledMail.IsOpenedMailSubjectInScheduledFolderSameAsExpected(patternMessage.Subject);
+            var isBodySame = _scheduledMail.IsOpenedMailBodyInScheduledFolderSameAsExpected(patternMessage.Body);
             return isAdressSame && isSubjectSame && isBodySame;
         }
     }

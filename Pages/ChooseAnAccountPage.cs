@@ -30,7 +30,7 @@ namespace GmailTA.Pages
         }
         public bool VerfiyLogoutIsSuccessfull(User user)
         {
-            return WebDriverExtension.IsElementVisible(WebUtils.FormatXpath(signedOutLabelXpath, user.DataUser[0]));
+            return WebDriverExtension.IsElementVisible(WebUtils.FormatXpath(signedOutLabelXpath, user.Email));
         }
 
     }

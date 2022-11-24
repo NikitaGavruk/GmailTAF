@@ -8,25 +8,21 @@ namespace GmailTA.Entities
 {
     public class Message
     {
-        private readonly string _to;
-        private readonly string _subject;
-        private readonly string _body;
-
-        public string[] DataUser { get; private set; }
+        public string To { get; set; }
+        public string Subject { get; set; }
+        public string Body { get; set; }
 
         public Message(string to, string subject, string body)
         {
-            _to = to;
-            _subject = subject;
-            _body = body;
-            DataUser = new[] { _to, _subject, _body };
+            To = to;
+            Subject = subject;
+            Body = body;
         }
         public Message(string to)
         {
-            _to = to;
-            _subject = String.Empty;
-            _body = String.Empty;
-            DataUser = new[] { _to, _subject, _body };
+            To = to;
+            Subject = String.Empty;
+            Body = String.Empty;
         }
     }
 }

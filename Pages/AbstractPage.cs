@@ -12,7 +12,13 @@ namespace GmailTA.Pages
         protected AbstractPage()
         {
         }
+        public T NavigateToUrl<T>(string url) where T : AbstractPage
 
+        {
+            Browser.GetDriver().Navigate().GoToUrl(url);
+            return (T)Activator.CreateInstance(typeof(T));
+
+        }
 
     }
  

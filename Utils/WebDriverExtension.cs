@@ -111,12 +111,6 @@ namespace GmailTA.Utils
             Browser.GetJSExecuter().ExecuteScript("arguments[0].click();", Browser.GetDriver().FindElement(xpath));
 
         }
-        public static T NavigateToUrl<T>(string url) where T : AbstractPage
 
-        {
-            Browser.GetDriver().Navigate().GoToUrl(url);
-            return (T)Activator.CreateInstance(typeof(T));
-
-        }
     }
 }

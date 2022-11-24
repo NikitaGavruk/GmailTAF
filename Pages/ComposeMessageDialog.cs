@@ -17,9 +17,9 @@ namespace GmailTA.Pages
         private string emailLabelOption = "//div[contains(text(),'{0}')]";
         private By toFieldXpath = By.XPath("//div[@aria-label=\"To\"]//input");
         private By minimizeButtonXpath = By.XPath("(//*[contains(@alt,\"Minimize\")])");
-        private By sendButtonXpath = By.XPath("//div[@role='dialog']//*[contains(@aria-label,\"Send\")]");
+        private By sendButtonXpath = By.XPath("(//*[contains(@aria-label,\"Send\")])[2]");
         // Second xpath for "To" field is needed, because field xpath is changing after input value in field
-        private By mailToFieldXpath = By.XPath("//div[@role='dialog']//span[@email]");
+        private By mailToFieldXpath = By.XPath("//span[@email]");
         private By moreSendOptionButtonXpath = By.XPath("//div[@aria-label=\"More send options\"]");
         private By scheduledSendOption = By.XPath("//div[text()=\"Schedule send\"]");
         private By discardDraftButtonXpath = By.XPath("//div[contains(@aria-label,'Discard draft')]");
@@ -30,23 +30,47 @@ namespace GmailTA.Pages
         {
         }
 
-        public ComposeMessageDialog FillFullMail(Message patternMessage)
+        public ComposeMessageDialog InputValueInToField(string to)
         {
-            WebDriverExtension.InputTextInField(toFieldXpath, patternMessage.DataUser[0]);
-            WebDriverExtension.InputTextInField(subjectBoxFieldXpath, patternMessage.DataUser[1]);
-            WebDriverExtension.InputTextInField(messageBodyFieldXpath, patternMessage.DataUser[2]);
+            WebDriverExtension.InputTextInField(toFieldXpath, to);
             return new ComposeMessageDialog();
+        
         }
-        public ComposeMessageDialog LabelEmail(string option)
+        public ComposeMessageDialog InputValueInSubjectField(string subject)
+        {
+            WebDriverExtension.InputTextInField(subjectBoxFieldXpath, subject);
+            return new ComposeMessageDialog();
+
+        }
+        public ComposeMessageDialog InputValueInBodyField(string body)
+        {
+            WebDriverExtension.InputTextInField(messageBodyFieldXpath, body);
+            return new ComposeMessageDialog();
+
+        }
+        public ComposeMessageDialog ClickOnMoreButton()
         {
             WebDriverExtension.ClickOnButton(moreOptionButtonXpath);
+            return new ComposeMessageDialog();
+        }
+        public ComposeMessageDialog ClickOnLabelList()
+        {
             WebDriverExtension.ClickOnButton(labelListButtonXpath);
+            return new ComposeMessageDialog();
+        }
+        public ComposeMessageDialog ChooseLabelOption(string option)
+        {
             WebDriverExtension.ClickOnButton(WebUtils.FormatXpath(emailLabelOption,option));
             return new ComposeMessageDialog();
         }
-        public ScheduledSendDialog ClickScheduledSendOption()
+        public ScheduledSendDialog ClickMoreSendOptionButton()
         {
             WebDriverExtension.ClickOnButton(moreSendOptionButtonXpath);
+            return new ScheduledSendDialog();
+
+        }
+        public ScheduledSendDialog ClickScheduledSendButton()
+        {
             WebDriverExtension.ClickOnButton(scheduledSendOption);
             return new ScheduledSendDialog();
 
@@ -62,12 +86,20 @@ namespace GmailTA.Pages
 
             return new MainPage();
         }
-        public bool IsMessageHasExpectedValuesInFields(Message patternMessage)
+        public bool IsMessageHasExpectedTo(string to)
         {
-            var isAdressSame = patternMessage.DataUser[0].Equals(WebDriverExtension.GetTextFromField(mailToFieldXpath));
-            var isSubjectSame = patternMessage.DataUser[1].Equals(WebDriverExtension.GetAttributeValueFromField(subjectBoxFieldXpath, "value"));
-            var isBodySame = patternMessage.DataUser[2].Equals(WebDriverExtension.GetTextFromField(messageBodyFieldXpath));
-            return isAdressSame && isSubjectSame && isBodySame;
+            var isAdressSame = to.Equals(WebDriverExtension.GetTextFromField(mailToFieldXpath));
+            return isAdressSame;
+        }
+        public bool IsMessageHasExpectedSubject(string subject)
+        {
+            var isSubjectSame = subject.Equals(WebDriverExtension.GetAttributeValueFromField(subjectBoxFieldXpath, "value"));
+            return isSubjectSame;
+        }
+        public bool IsMessageHasExpectedBody(string body)
+        {
+            var isBodySame = body.Equals(WebDriverExtension.GetTextFromField(messageBodyFieldXpath));
+            return isBodySame;
         }
         public MainPage ClickCollapseMailButton()
         {

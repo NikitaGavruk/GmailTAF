@@ -9,14 +9,15 @@ using System.Threading.Tasks;
 
 namespace GmailTA.Steps
 {
-    public class LoginPageSteps : LoginPage
+    public class LoginPageSteps 
     {
+        readonly LoginPage _loginPage = new LoginPage();
         public MainPage Login(User user)
         {
-            InputEmail(user.DataUser[0]);
-            ClickOnNextButton<LoginPage>();
-            InputPassword(user.DataUser[1]);
-            ClickOnNextButton<MainPage>();
+            _loginPage.InputEmail(user.Email);
+            _loginPage.ClickOnNextButton<LoginPage>();
+            _loginPage.InputPassword(user.Password);
+            _loginPage.ClickOnNextButton<MainPage>();
             return new MainPage();
         }
     }

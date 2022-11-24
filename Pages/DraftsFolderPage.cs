@@ -52,9 +52,9 @@ namespace GmailTA.Pages
             return Browser.GetDriver().FindElements(selectedMessagesXpath).Count;
 
         }
-        public bool IsMessageSelectedBySubject(Message patternMessage)
+        public bool IsMessageSelectedBySubject(string subject)
         {
-            return WebDriverExtension.IsElementVisible(WebUtils.FormatXpath(starredEmailWithSubjectXpath, patternMessage.DataUser[1]));
+            return WebDriverExtension.IsElementVisible(WebUtils.FormatXpath(starredEmailWithSubjectXpath, subject));
 
         }
     }

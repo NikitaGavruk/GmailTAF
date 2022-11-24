@@ -14,12 +14,12 @@ namespace GmailTA.Pages
 
         public T OpenEmailBySubjectInFolder<T>(Message patternMessage) where T : AbstractPage
         {
-            WebDriverExtension.ClickOnButton(WebUtils.FormatXpath(mailInFolderXpath, patternMessage.DataUser[1]));
+            WebDriverExtension.ClickOnButton(WebUtils.FormatXpath(mailInFolderXpath, patternMessage.Subject));
             return (T)Activator.CreateInstance(typeof(T));
         }
-        public bool VerfiyMailVisibleInFolder(Message patternMessage)
+        public bool VerifyMessageWithSubjectVisibleInFolder(string subject)
         {
-            return WebDriverExtension.IsElementVisible(WebUtils.FormatXpath(mailInFolderXpath, patternMessage.DataUser[1]));
+            return WebDriverExtension.IsElementVisible(WebUtils.FormatXpath(mailInFolderXpath, subject));
         }
     }
 }
