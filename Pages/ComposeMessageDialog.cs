@@ -17,7 +17,7 @@ namespace GmailTA.Pages
         private string emailLabelOption = "//div[contains(text(),'{0}')]";
         private By toFieldXpath = By.XPath("//div[@aria-label=\"To\"]//input");
         private By minimizeButtonXpath = By.XPath("(//*[contains(@alt,\"Minimize\")])");
-        private By sendButtonXpath = By.XPath("(//*[contains(@aria-label,\"Send\")])[2]");
+        private By sendButtonXpath = By.XPath("//div[@role='dialog']//*[contains(@aria-label, \"Send\")]");
         // Second xpath for "To" field is needed, because field xpath is changing after input value in field
         private By mailToFieldXpath = By.XPath("//span[@email]");
         private By moreSendOptionButtonXpath = By.XPath("//div[@aria-label=\"More send options\"]");
