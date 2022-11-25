@@ -18,11 +18,28 @@ namespace GmailTA.Entities
             Subject = subject;
             Body = body;
         }
+
         public Message(string to)
         {
             To = to;
             Subject = String.Empty;
             Body = String.Empty;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            var actualMessage = obj as Message;
+            var isAdressSame = To.Equals(actualMessage.To);
+            var isSubjectSame = Subject.Equals(actualMessage.Subject);
+            var isBodySame = Body.Equals(actualMessage.Body);
+
+            return isAdressSame && isSubjectSame && isBodySame;
+        }
+
+
+        public override string? ToString()
+        {
+            return  "To: " + To + ", Subject: " + Subject + ", Body: " + Body;
         }
     }
 }

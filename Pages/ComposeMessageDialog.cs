@@ -29,7 +29,22 @@ namespace GmailTA.Pages
         public ComposeMessageDialog() : base()
         {
         }
+        public string GetToValue()
+        {
+            WebDriverExtension.WaitUntilElementIsVisible(mailToFieldXpath);
+            return WebDriverExtension.GetTextFromField(mailToFieldXpath);
+        }
+        public string GetSubjectValue()
+        {
+            WebDriverExtension.WaitUntilElementIsVisible(subjectBoxFieldXpath);
+            return WebDriverExtension.GetAttributeValueFromField(subjectBoxFieldXpath, "value");
+        }
+        public string GetBodyValue()
+        {
 
+            WebDriverExtension.WaitUntilElementIsVisible(messageBodyFieldXpath);
+            return WebDriverExtension.GetTextFromField(messageBodyFieldXpath);
+        }
         public ComposeMessageDialog InputValueInToField(string to)
         {
             WebDriverExtension.InputTextInField(toFieldXpath, to);

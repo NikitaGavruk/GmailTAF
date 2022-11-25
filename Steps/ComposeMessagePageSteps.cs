@@ -13,7 +13,7 @@ namespace GmailTA.Steps
     {
         readonly ComposeMessageDialog _dialog = new ComposeMessageDialog();
         readonly ScheduledSendDialog _scheduledSendDialog = new ScheduledSendDialog();
-
+        string  pickDataAndTime = "Pick date & time";
         public ComposeMessageDialog FillFullMail(Message patternMessage)
         {
             _dialog.InputValueInToField(patternMessage.To);
@@ -47,6 +47,18 @@ namespace GmailTA.Steps
             var isSubjectSame = _dialog.IsMessageHasExpectedSubject(patternMessage.Subject);
             var isBodySame = _dialog.IsMessageHasExpectedBody(patternMessage.Body);
             return isAdressSame && isSubjectSame && isBodySame;
+        }
+        public Message GetMessage()
+        {
+            return new Message(_dialog.GetToValue(), _dialog.GetSubjectValue(), _dialog.GetBodyValue());
+        }
+        public MainPage ScheduledSendForSpecificDate(DateTime dataTime)
+        {
+            var dialog = ClickScheduledSendOption();
+            dialog.ChooseEmailSendSchedule<ScheduledSendDialog>(pickDataAndTime);
+            dialog.ChooseDate(dataTime);
+            dialog.ChooseTime(dataTime);
+            return dialog.ClickScheduledSend();
         }
     }
 }

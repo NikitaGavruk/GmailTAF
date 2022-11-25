@@ -39,8 +39,8 @@ namespace GmailTA.Tests
             // Step 5. Verify, that the mail present in 'Draft' folder
             Assert.IsTrue(_draftPage.VerifyMessageWithSubjectVisibleInFolder(patternMessage.Subject));
             // Step 6. Verify the draft content(addressee, subject and body – should be the same as in 3).
-            _draftPage.OpenEmailBySubjectInFolder<ComposeMessageDialog>(patternMessage);
-            Assert.IsTrue(_composeMessagePageSteps.IsMessageHasExpectedValuesInFields(patternMessage));
+            _draftPage.OpenEmailBySubjectInFolder<ComposeMessageDialog>(patternMessage.Subject);
+            Assert.That(_composeMessagePageSteps.GetMessage(), Is.EqualTo(patternMessage));
             // Step 7. Send the mail.
             _composeMessagePage.SendMail();
             _mainPage.ClickOnFolder<DraftsFolderPage>(MainPage.draftsName);
@@ -65,14 +65,12 @@ namespace GmailTA.Tests
             // Step 2. Create a new mail(fill addressee, subject and body fields).
             var _composeMessagePage = _mainPage.ClickComposeButton();
             _composeMessagePageSteps.FillFullMail(patternMessage);
-            var _scheduledSendDialog = _composeMessagePageSteps.ClickScheduledSendOption();
             // Step 3.	Schedule send for the mail using ‘Select Date and time’ option in ‘Schedule send’ _dialog.
-            _scheduledSendDialog.ChooseEmailSendSchedule<ComposeMessageDialog>("Pick date & time");
-            _composeMessagePageSteps.ChooseDateAndTime(dateTime).ClickScheduledSend();
-            //  Step 4.	Verify that the mail is present in ‘Scheduled’ folder.
-            var _scheduledSendPage = _mainPage.ClickOnFolder<ScheduledFolderPage>(MainPage.scheduledName);
+            _composeMessagePageSteps.ScheduledSendForSpecificDate(dateTime);
+           //  Step 4.	Verify that the mail is present in ‘Scheduled’ folder.
+           var _scheduledSendPage = _mainPage.ClickOnFolder<ScheduledFolderPage>(MainPage.scheduledName);
             Assert.IsTrue(_scheduledSendPage.VerifyMessageWithSubjectVisibleInFolder(patternMessage.Subject));
-            var _scheduledMailPage = _scheduledSendPage.OpenEmailBySubjectInFolder<ScheduledMailPage>(patternMessage);
+            var _scheduledMailPage = _scheduledSendPage.OpenEmailBySubjectInFolder<ScheduledMailPage>(patternMessage.Subject);
             //  Step 5.	Verify the mail content(addressee, subject and body – should be the same as in step 2).
             Assert.IsTrue(_scheduledMailPageSteps.IsOpenedMailInScheduledFolderSameAsExpected(patternMessage));
             //  Step 6.Verify the scheduled time.
@@ -83,7 +81,7 @@ namespace GmailTA.Tests
             Assert.IsFalse(_scheduledSendPage.VerifyMessageWithSubjectVisibleInFolder(patternMessage.Subject));
             //  Step 9. Verify that the mail is returned to draft state and is shown in Compose mail popup with all fields filled(addressee, subject and body – should be the same as in step 2).
             var _draftPage = _mainPage.ClickOnFolder<DraftsFolderPage>(MainPage.draftsName);
-            Assert.IsTrue(_composeMessagePageSteps.IsMessageHasExpectedValuesInFields(patternMessage));
+            Assert.That(_composeMessagePageSteps.GetMessage(), Is.EqualTo(patternMessage));
             Assert.IsTrue(_draftPage.VerifyMessageWithSubjectVisibleInFolder(patternMessage.Subject));
             //  Step 10. Discard draft.
             _composeMessagePage.DiscardDraft();
