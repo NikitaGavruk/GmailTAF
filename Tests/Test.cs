@@ -10,6 +10,7 @@ using GmailTA.Steps;
 using GmailTA.Utils;
 using GmailTA.TestData;
 using GmailTA.Entities;
+using GmailTA.Builders;
 
 namespace GmailTA.Tests
 {
@@ -20,6 +21,8 @@ namespace GmailTA.Tests
 
         private User user = new User(TestsData.accoutEmail, TestsData.password);
         private Message patternMessage = new Message(TestsData.to, TestsData.commonSubject, TestsData.commonBody);
+        private MessageBuilder builder = new MessageBuilder();
+        
         ComposeMessagePageSteps _composeMessagePageSteps = new ComposeMessagePageSteps();
         ScheduledMailPageSteps _scheduledMailPageSteps = new ScheduledMailPageSteps();  
         [Test]
@@ -94,8 +97,8 @@ namespace GmailTA.Tests
         [Test]
         public void StarredEmails()
         {
-            var starredMessage = new Message(TestsData.to, "Message with star", "Star!");
-            var nonStarredMessage = new Message(TestsData.to, "Message without star", "Where is star?");
+            var starredMessage = builder.AddTo(TestsData.to).AddBody("Star!").build();
+            var nonStarredMessage = builder.AddTo(TestsData.to).AddBody("Where is star?").AddSubject("Message without star").build();
 
             // Step 1. Login to the mail box.
             Log.Info("Login into app");

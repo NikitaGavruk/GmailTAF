@@ -16,9 +16,9 @@ namespace GmailTA.Steps
         string  pickDataAndTime = "Pick date & time";
         public ComposeMessageDialog FillFullMail(Message patternMessage)
         {
-            _dialog.InputValueInToField(patternMessage.To);
-            _dialog.InputValueInSubjectField(patternMessage.Subject);
-            _dialog.InputValueInBodyField(patternMessage.Body);
+            if(patternMessage.To != null) _dialog.InputValueInToField(patternMessage.To);
+            if (patternMessage.Subject != null) _dialog.InputValueInSubjectField(patternMessage.Subject);
+            if (patternMessage.Body != null) _dialog.InputValueInBodyField(patternMessage.Body);
             return new ComposeMessageDialog();
         }
         public ComposeMessageDialog LabelEmail(string option)

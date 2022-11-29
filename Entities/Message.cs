@@ -12,6 +12,7 @@ namespace GmailTA.Entities
         public string Subject { get; set; }
         public string Body { get; set; }
 
+
         public Message(string to, string subject, string body)
         {
             To = to;
@@ -19,11 +20,8 @@ namespace GmailTA.Entities
             Body = body;
         }
 
-        public Message(string to)
+        public Message()
         {
-            To = to;
-            Subject = String.Empty;
-            Body = String.Empty;
         }
 
         public override bool Equals(object? obj)
